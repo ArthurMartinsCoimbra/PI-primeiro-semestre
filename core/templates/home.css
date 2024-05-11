@@ -1,0 +1,23 @@
+.nav-link {
+    color: white;
+}
+
+.centered-row {
+    text-align: center;
+    width: 10px;
+}
+
+.bi-plus-circle,
+.bi-dash-circle {
+    -webkit-text-stroke: 1px;
+}
+
+.input-group {
+    padding-top: 10px;
+}
+
+footer {
+    bottom: 0px;
+    position: absolute;
+    width: 100%;
+}
