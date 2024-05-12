@@ -10,3 +10,6 @@ class Lote(models.Model):
 
     def __str__(self) -> str:
         return self.Nome + ' ' + self.Nlote
+    
+class ProdutoNome(models.Model):
+    Nome = models.CharField('Nome', max_length=100, primary_key=True)
