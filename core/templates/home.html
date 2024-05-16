@@ -157,14 +157,16 @@
                             </tr>
                         </thead>
                         <tbody id="productTable">
+                        {% for item in lotes %}
                             <tr>
-                                <td>100524</td>
-                                <td>Queijo</td>
-                                <td>10/10/24</td>
-                                <td>10 unidades</td>
+                                <td>{{ item.Nlote }}</td>
+                                <td>{{ item.Nome }}</td>
+                                <td>{{ item.Validade }}</td>
+                                <td>{{ item.Quantidade }}</td>
                                 <td class="centered-row"><i class="bi bi-plus-circle text-success"></i></td>
                                 <td class="centered-row"><i class="bi bi-dash-circle text-danger"></i></td>
                             </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
 

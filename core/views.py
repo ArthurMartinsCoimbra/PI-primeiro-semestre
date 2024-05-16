@@ -16,10 +16,18 @@ def login_user(request):
     return render(request, 'login.html')
 
 def home(request):
-    return render(request, 'home.html')
+    lotes = Lote.objects.all()
+    context = {
+        'lotes': lotes
+    }
+    return render(request, 'home.html', context)
 
 def product(request):
-    return render(request, 'product.html')
+    produtos = ProdutoNome.objects.all()
+    context = {
+        'produtos': produtos
+    }
+    return render(request, 'product.html', context)
 
 
 def login_submit(request):
@@ -75,6 +83,10 @@ def create_usuario(request):
             messages.error(request='senhas não batem')
             return render(request, 'register.html')
         
+
+
+
+
 
 
 '''def createUser(request):
