@@ -84,6 +84,16 @@ def create_usuario(request):
             return render(request, 'register.html')
         
 
+def create_produto(request):
+    if request.POST:
+        if not request.POST.get('Nomeproduto'):
+            return render(request, 'product.html')
+        produto = ProdutoNome.objects.create(
+            Nome = request.POST.get('Nomeproduto')
+        )
+        produto.save()
+        return redirect('/product.html/')
+
 
 
 

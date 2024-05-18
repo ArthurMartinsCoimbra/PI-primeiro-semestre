@@ -20,9 +20,9 @@ from core.views import home, product, register, index, create_usuario, login_use
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home),
-    path('produtos/', product),
-    path('cadastro/', register),
+    path('', home, name='home'),
+    path('produtos/', product, name = 'produtos'),
+    path('cadastro/', register, name= 'cadastro'),
     path('teste/', index),
     path('cadastro/submit', create_usuario, name = 'create_usuario'),
     path('login/', login_user, name='login'),
