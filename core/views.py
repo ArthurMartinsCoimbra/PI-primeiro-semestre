@@ -16,6 +16,8 @@ def login_user(request):
     return render(request, 'login.html')
 
 def home(request):
+    if not request.user.is_authenticated:
+        return redirect('/login/')
     lotes = Lote.objects.all()
     context = {
         'lotes': lotes
@@ -23,6 +25,8 @@ def home(request):
     return render(request, 'home.html', context)
 
 def product(request):
+    if not request.user.is_authenticated:
+        return redirect('/login/')
     produtos = ProdutoNome.objects.all()
     context = {
         'produtos': produtos
@@ -88,12 +92,17 @@ def create_produto(request):
     if request.POST:
         if not request.POST.get('Nomeproduto'):
             return render(request, 'product.html')
+        print(request.POST.get('Nomeproduto'))
         produto = ProdutoNome.objects.create(
             Nome = request.POST.get('Nomeproduto')
         )
+        print(request.POST.get('Nomeproduto'))
         produto.save()
-        return redirect('/product.html/')
+        return redirect('/produtos/')
 
+def logout_view(request):
+    logout(request)
+    return redirect('/login/')
 
 
 

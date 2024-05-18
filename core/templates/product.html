@@ -71,7 +71,7 @@
                     </ul>
 
                     <div class="d-flex">
-                        <a href="#" class="btn btn-light text-primary">Logout</a>
+                        <a href="{% url 'logout' %}" class="btn btn-light text-primary">Logout</a>
                     </div>
                 </div>
             </div>
@@ -80,61 +80,17 @@
         <div class="container my-4">
             <div class="row justify-content-center">
                 <div class="card">
-                    <h5 class="card-header">
-                        <div class="row align-items-center">
-                            <div class="col-3 text-dark text-muted text-start">
-                                <strong>Produtos cadastrados </strong>
-                            </div>
-
-                            <div class="col-5">
-                                <input class="form-control " placeholder="Digite para procurar...">
-                            </div>
-
-                            <div class="col-3">
-                                <button class="btn btn-primary">Procurar</button>
-                            </div>
-
-                            <div class="col-1 text-end">
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                    <i class="bi bi-plus-lg"></i>
-                                </button>
-
-                                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
-                                    data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog">
-
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="staticBackdropLabel">Cadastro de Produto
-                                                </h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-
-                                            <div class="modal-body">
-                                                <div class="input-group flex-nowrap">
-                                                    <span class="input-group-text" id="addon-wrapping"><i
-                                                            class="bi bi-cart4"></i></span>
-                                                    <input type="text" class="form-control" placeholder="Nome do Produto"
-                                                        aria-label="Nome do produto" aria-describedby="addon-wrapping">
-                                                </div>
-                                            </div>
-
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Fechar</button>
-                                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Salvar</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
+                    <form action="/produtos/submit" method="post" enctype="multipart/form-data" class="border border-primary border-2 py-4 px-3 rounded-3  bg-light">
+                        {% csrf_token %}
+                        <p class="h5 mb-3 fw-normal">Criar novo produto</p>
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="Produtonomenome" placeholder="Nome do produto" name="Nomeproduto">
+                            <label for="Produtonomenome">Nome do produto</label>
                         </div>
-                    </h5>
+                        <button class="btn btn-primary w-100 py-2" type="submit">Cadastrar Produto</button>
+                    </form>
 
-                    <div class="card-body">
+                 <div class="card-body">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -157,7 +113,7 @@
                 </div>
             </div>
         </div>
-        <footer class="mt-4 bg-dark text-center text-light p-4">
+    <!- <footer class="mt-4 bg-dark text-center text-light p-4">
             Todos os direitos reservados.
         </footer>
     </body>
