@@ -95,16 +95,14 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Nome do Produto</th>
-                                    <th class="centered-row" scope="col">Editar</th>
-                                    <th class="centered-row" scope="col">Eliminar</th>
+                                    <th class="centered-row" scope="col">Excluir</th>
                                 </tr>
                             </thead>
                             <tbody>
                             {% for item in produtos %}
                                 <tr>
                                     <td>{{item.Nome}}</td>
-                                    <td class="centered-row"><i class="bi bi-pencil-fill"></i></td>
-                                    <td class="centered-row"><i class="bi bi-trash3-fill"></i></td>
+                                    <td class="centered-row"><a class="bi bi-trash3-fill" href="{% url 'proddelet' item.Nome %}"></a></td>
                                 </tr>
                             {% endfor %}
                             </tbody>

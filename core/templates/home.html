@@ -91,6 +91,7 @@
                                 <th scope="col" >Autor</th>
                                 <th scope="col">Entrada </th>
                                 <th scope="col">Saída </th>
+                                <th scope="col" >Excluir</th>
                             </tr>
                         </thead>
                         <tbody id="productTable">
@@ -103,6 +104,7 @@
                                 <td>{{ item.Usuario }}</td>
                                 <td class="centered-row"><i class="bi bi-plus-circle text-success"></i></td>
                                 <td class="centered-row"><i class="bi bi-dash-circle text-danger"></i></td>
+                                <td class="centered-row"><a class="bi bi-trash3-fill" href="{% url 'lotedelet' item.Nlote %}"></a></td>
                             </tr>
                         {% endfor %}
                         </tbody>

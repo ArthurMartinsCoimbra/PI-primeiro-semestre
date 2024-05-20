@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Lote, ProdutoNome
 from django.contrib.auth import login, logout, authenticate
@@ -121,6 +121,16 @@ def create_lote(request):
 def logout_view(request):
     logout(request)
     return redirect('/login/')
+
+def delet_prod(request, coletNome):
+    produto = get_object_or_404(ProdutoNome, Nome = coletNome)
+    produto.delete()
+    return redirect('/produtos/')
+
+def delet_lote(request, coletNlote):
+    lote = get_object_or_404(Lote, Nlote = coletNlote)
+    lote.delete()
+    return redirect('/')
 
 
 
