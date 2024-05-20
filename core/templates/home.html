@@ -54,91 +54,31 @@
 
         <div class="container my-4">
             <div class="card">
-                <h5 class="card-header">
-                    <div class="row align-items-center">
-                        <div class="col-3 text-dark text-muted text-center">
-                            <strong>Unidade: </strong><span class="text-primary">Ponta da Praia</span>
-                        </div>
-
-                        <div class="col-5">
-                            <input class="form-control " placeholder="Digite para procurar...">
-                        </div>
-
-                        <div class="col-3">
-                            <button class="btn btn-primary">Procurar</button>
-                        </div>
-
-                        <div class="col-1 text-end">
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                <i class="bi bi-plus-lg"></i>
-                            </button>
-
-                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-                                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Entrada de produto
-                                            </h1>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-
-                                        <div class="modal-body">
-
-                                            <div class="input-group flex-nowrap">
-                                                <span class="input-group-text" id="addon-product"><i
-                                                        class="bi bi-calendar-date"></i></span>
-                                                <select class="form-select" aria-label="Default select example"
-                                                    aria-describedby="addon-product">
-                                                    <option selected>Selecione o produto</option>
-                                                    <option value="queijo">Queijo</option>
-                                                    <option value="tomate">Tomate</option>
-                                                    <option>Cebola</option>
-                                                </select>
-                                            </div>
-                                            <div class="input-group flex-nowrap">
-                                                <span class="input-group-text" id="addon-batch">Lote</span>
-                                                <input type="text" class="form-control" id="batchNumber"
-                                                    aria-describedby="addon-bacth">
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col">
-                                                    <div class="input-group flex-nowrap">
-                                                        <span class="input-group-text" id="addon-expireDate"><i
-                                                                class="bi bi-calendar-date"></i></span>
-                                                        <input type="date" class="form-control" id="expireDateSelected"
-                                                            placeholder="10/02/2024" aria-label="Validade do produto"
-                                                            aria-describedby="addon-expireDate">
-                                                    </div>
-                                                </div>
-
-                                                <div class="col">
-
-                                                    <div class="input-group flex-nowrap">
-                                                        <span class="input-group-text" id="addon-quantity">Qtd</span>
-                                                        <input type="number" class="form-control" id="quantitySet"
-                                                            aria-describedby="addon-quantity">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Fechar</button>
-                                            <button type="button" class="btn btn-primary" id="saveProduct">Salvar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
+                <form action="/submit/" method="post" enctype="multipart/form-data" class="border border-primary border-2 py-4 px-3 rounded-3  bg-light">
+                    {% csrf_token %}
+                    <p class="h5 mb-3 fw-normal">Criar novo produto</p>
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="Nlotelot" placeholder="Lote" name="Nlotelote">
+                        <label for="Nlotelot">Lote</label>
                     </div>
-
-                </h5>
+                    <div class="form-floating">
+                        <label for="Nomelot"></label>
+                        <select class="form-control" id="Nomelot" placeholder="Nome do produto" name="Nomelote">
+                            {% for item in produtos %}
+                                <option value = '{{item.Nome}}'>{{item.Nome}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-floating">
+                        <input type="date" class="form-control" id="Valilot" placeholder="Validade" name="Valilote">
+                        <label for="Valilot">Validade</label>
+                    </div>
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="Quantlot" placeholder="Quantidade" name="Quantlote">
+                        <label for="Quantlot">Quantidade</label>
+                    </div>
+                    <button class="btn btn-primary w-100 py-2" type="submit">Cadastrar Produto</button>
+                    </form>
                 <div class="card-body">
 
                     <table class="table table-striped" id="productsTable">
@@ -147,7 +87,8 @@
                                 <th scope="col">Lote</th>
                                 <th scope="col">Nome do Produto</th>
                                 <th scope="col">Validade</th>
-                                <th scope="col">Quantidade </th>
+                                <th scope="col">Quantidade</th>
+                                <th scope="col" >Autor</th>
                                 <th scope="col">Entrada </th>
                                 <th scope="col">Saída </th>
                             </tr>
@@ -159,6 +100,7 @@
                                 <td>{{ item.Nome }}</td>
                                 <td>{{ item.Validade }}</td>
                                 <td>{{ item.Quantidade }}</td>
+                                <td>{{ item.Usuario }}</td>
                                 <td class="centered-row"><i class="bi bi-plus-circle text-success"></i></td>
                                 <td class="centered-row"><i class="bi bi-dash-circle text-danger"></i></td>
                             </tr>
@@ -170,7 +112,7 @@
             </div>
         </div>
         
-        <footer class="mt-4 bg-dark text-center text-light p-4">
+       <!- <footer class="mt-4 bg-dark text-center text-light p-4">
             Todos os direitos reservados.
         </footer>
     </body>

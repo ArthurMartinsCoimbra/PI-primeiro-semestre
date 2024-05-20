@@ -19,8 +19,10 @@ def home(request):
     if not request.user.is_authenticated:
         return redirect('/login/')
     lotes = Lote.objects.all()
+    produtos = ProdutoNome.objects.all()
     context = {
-        'lotes': lotes
+        'lotes': lotes,
+        'produtos': produtos
     }
     return render(request, 'home.html', context)
 
@@ -99,6 +101,22 @@ def create_produto(request):
         print(request.POST.get('Nomeproduto'))
         produto.save()
         return redirect('/produtos/')
+
+def create_lote(request):
+    if request.POST:
+        AtribLote=['Nomelote', 'Quantlote','Nlotelote','Valilote','Usurlote']
+        '''for Atrib in AtribLote:
+            if not request.POST.get(Atrib):
+                return render(request, 'home.html')'''
+        lote = Lote.objects.create(
+            Nome = request.POST.get('Nomelote'),
+            Quantidade = request.POST.get('Quantlote'),
+            Nlote = request.POST.get('Nlotelote'),
+            Validade = request.POST.get('Valilote'),
+            Usuario = request.user
+        )
+        lote.save()
+    return redirect('/')
 
 def logout_view(request):
     logout(request)

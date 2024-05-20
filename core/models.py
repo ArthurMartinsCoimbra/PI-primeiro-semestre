@@ -9,7 +9,7 @@ class ProdutoNome(models.Model):
 
 
 class Lote(models.Model):
-    Nome = models.ForeignKey(ProdutoNome, blank=True, null=True, on_delete=models.DO_NOTHING, related_name='nome_lote' )
+    Nome = models.CharField('Nome',max_length=40, null = True, blank = True)
     Quantidade = models.DecimalField('Quantidade no Lote',max_digits=8, decimal_places=0)
     Nlote = models.CharField('Numero do Lote',max_length=40, primary_key=True)
     Validade = models.DateField('Validade', auto_now=False, auto_now_add=False)

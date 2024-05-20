@@ -5,4 +5,7 @@ class LoteModelForm(forms.ModelForm):
 
     class Meta:
         model = Lote
-        fields = "__all__"
+        fields = ['Nome', 'Quantidade', 'Validade']
+        widgets = {
+            'validade' : forms.DateInput(attrs={'type':'date'})
+        }
