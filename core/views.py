@@ -132,8 +132,23 @@ def delet_lote(request, coletNlote):
     lote.delete()
     return redirect('/')
 
+def add_quant(request, pegNlote):
+    lote = get_object_or_404(Lote, Nlote = pegNlote)
+    quantidade  = int(request.POST.get('quantidade', 0))
+    print(quantidade)
+    lote.Quantidade += quantidade
+    lote.save()
+    return redirect('/')
 
-
+def sub_quant(request, pegNlote):
+    lote = get_object_or_404(Lote, Nlote = pegNlote)
+    quantidade  = int(request.POST.get('quantidade', 0))
+    if quantidade <= lote.Quantidade:
+        lote.Quantidade -= quantidade
+        lote.save()
+        return redirect('/')
+    else:
+        return redirect('/')
 
 
 '''def createUser(request):

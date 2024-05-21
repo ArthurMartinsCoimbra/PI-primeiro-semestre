@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import home, product, register, index, create_usuario, login_user, login_submit, create_produto, logout_view, create_lote, delet_prod, delet_lote
+from core.views import home, product, register, index, create_usuario, login_user, login_submit, create_produto, logout_view, create_lote, delet_prod, delet_lote, add_quant, sub_quant
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,5 +31,7 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
     path('submit/', create_lote, name = 'lotessubmit'),
     path('produtos/produtosdel/<str:coletNome>/', delet_prod, name = 'proddelet'),
-    path('lotesdel/<str:coletNlote>/', delet_lote, name = 'lotedelet')
+    path('lotesdel/<str:coletNlote>/', delet_lote, name = 'lotedelet'),
+    path('add/<str:pegNlote>/', add_quant, name = 'addquant'),
+    path('sub/<str:pegNlote>/', sub_quant, name = 'subquant'),
 ]
