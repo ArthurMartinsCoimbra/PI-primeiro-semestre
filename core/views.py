@@ -11,8 +11,8 @@ def index(request):
     return render(request, 'index.html')
 
 def login_user(request):
-    if request.user.is_authenticated:
-        return redirect('/')
+    '''if request.user.is_authenticated:
+        return redirect('/')'''
     return render(request, 'login.html')
 
 def home(request):
@@ -57,8 +57,8 @@ def login_submit(request):
 
 
 def register(request):
-    if request.user.is_authenticated:
-        return redirect('/')
+    '''if request.user.is_authenticated:
+        return redirect('/')'''
     return render(request, 'register.html')
 
 def create_usuario(request):
