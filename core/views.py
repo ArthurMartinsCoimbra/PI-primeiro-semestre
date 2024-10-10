@@ -5,7 +5,12 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import LoteModelForm
+from mailersend import emails
+from django.conf import settings
 # Create your views here.
+ala = ProdutoNome.objects.get(Nome = "mamaco alado de quatro braços")
+print(ala.Formail.all())
+
 
 def index(request):
     return render(request, 'index.html')
@@ -150,6 +155,23 @@ def sub_quant(request, pegNlote):
     else:
         return redirect('/')
 
+
+
+def env_mail(dest, prod, linkform):
+    mailer = emails.NewEmail(settings.MAILERSEND_API_KEY)
+
+    subject = f'Preencha o seguinte formulário do produto: {prod}'
+    body = f'O link do formulário é este: {linkform}'
+
+    response = mailer.send(
+    recipients = [dest],
+    sender = settings.DEFAULT_FROM_EMAIL,
+    subject = subject,
+    text = body,
+    html = body
+    )
+
+    return response
 
 '''def createUser(request):
     if request.POST:

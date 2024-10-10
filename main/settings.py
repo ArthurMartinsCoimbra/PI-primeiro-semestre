@@ -21,7 +21,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-lvne=@vdr&jf90q1tp@d)*t2g7c%le*h(y^-o0=+v9prxd+9un'
-
+MAILERSEND_API_KEY = 'mlsn.27939e69d85339d9e0859fe5d0f105dc1b42ea07a6d895e18e6533af6cda568d'
+DEFAULT_FROM_EMAIL = 'amc5347@gmail.com'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
