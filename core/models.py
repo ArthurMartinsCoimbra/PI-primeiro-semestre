@@ -11,7 +11,11 @@ class Fornecedor(models.Model):
 
 class ProdutoNome(models.Model):
     Nome = models.CharField('Nome', max_length=100, primary_key=True)
-    Formail = models.ManyToManyField(Fornecedor, null=True, blank= True, related_name = 'produtos324')
+    Formail1 = models.EmailField('Email1', null=True, blank= True)
+    Formail2 = models.EmailField('Email2', null=True, blank= True)
+    Formail3 = models.EmailField('Email3', null=True, blank= True)
+    Formail4 = models.EmailField('Email4', null=True, blank= True)
+    Formail5 = models.EmailField('Email5', null=True, blank= True)
     def __str__(self):
         return self.Nome
 

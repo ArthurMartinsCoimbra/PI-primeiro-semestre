@@ -8,8 +8,6 @@ from .forms import LoteModelForm
 from mailersend import emails
 from django.conf import settings
 # Create your views here.
-ala = ProdutoNome.objects.get(Nome = "mamaco alado de quatro braços")
-print(ala.Formail.all())
 
 
 def index(request):
