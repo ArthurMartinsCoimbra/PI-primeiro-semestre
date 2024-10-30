@@ -17,109 +17,86 @@
     <script src="homejs.js"></script>
 </head>
 {% if request.user.is_anonymous %}
-    <body>
-        <h2>vá fazer o login</h2>
-    </body>
+
+<body>
+    <h2>vá fazer o login</h2>
+</body>
 {% else %}
-    <body>
-        <nav class="navbar navbar-expand-lg bg-primary" style="height: 80px;">
-            <div class="container">
-                <i class="bi bi-boxes text-light pe-2"></i>
 
-                <a class="navbar-brand text-light" href="#"><strong>SeuEstoque</strong></a>
+<body>
+    {% include 'navbar.html' %}
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'admin:index' %}">Administração</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'produtos' %}">Produtos</a>
-                        </li>
-                    </ul>
-
-                    <div class="d-flex">
-                        <a href= "{% url 'logout' %}" class="btn btn-light text-primary">Logout</a>
-                    </div>
+    <div class="container my-4">
+        <div class="card">
+            <form action="/submit/" method="post" enctype="multipart/form-data"
+                class="border border-primary border-2 py-4 px-3 rounded-3  bg-light">
+                {% csrf_token %}
+                <p class="h5 mb-3 fw-normal">Criar novo produto</p>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="Nlotelot" placeholder="Lote" name="Nlotelote">
+                    <label for="Nlotelot">Lote</label>
                 </div>
-            </div>
-        </nav>
+                <div class="form-floating">
+                    <label for="Nomelot"></label>
+                    <select class="form-control" id="Nomelot" placeholder="Nome do produto" name="Nomelote">
+                        {% for item in produtos %}
+                        <option value='{{item.Nome}}'>{{item.Nome}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-floating">
+                    <input type="date" class="form-control" id="Valilot" placeholder="Validade" name="Valilote">
+                    <label for="Valilot">Validade</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="Quantlot" placeholder="Quantidade" name="Quantlote">
+                    <label for="Quantlot">Quantidade</label>
+                </div>
+                <button class="btn btn-primary w-100 py-2" type="submit">Cadastrar Lote</button>
+            </form>
+            <div class="card-body">
 
-        <div class="container my-4">
-            <div class="card">
-                <form action="/submit/" method="post" enctype="multipart/form-data" class="border border-primary border-2 py-4 px-3 rounded-3  bg-light">
-                    {% csrf_token %}
-                    <p class="h5 mb-3 fw-normal">Criar novo produto</p>
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="Nlotelot" placeholder="Lote" name="Nlotelote">
-                        <label for="Nlotelot">Lote</label>
-                    </div>
-                    <div class="form-floating">
-                        <label for="Nomelot"></label>
-                        <select class="form-control" id="Nomelot" placeholder="Nome do produto" name="Nomelote">
-                            {% for item in produtos %}
-                                <option value = '{{item.Nome}}'>{{item.Nome}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-floating">
-                        <input type="date" class="form-control" id="Valilot" placeholder="Validade" name="Valilote">
-                        <label for="Valilot">Validade</label>
-                    </div>
-                    <div class="form-floating">
-                        <input type="text" class="form-control" id="Quantlot" placeholder="Quantidade" name="Quantlote">
-                        <label for="Quantlot">Quantidade</label>
-                    </div>
-                    <button class="btn btn-primary w-100 py-2" type="submit">Cadastrar Lote</button>
-                    </form>
-                <div class="card-body">
-
-                    <table class="table table-striped" id="productsTable">
-                        <thead>
+                <table class="table table-striped" id="productsTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Lote</th>
+                            <th scope="col">Nome do Produto</th>
+                            <th scope="col">Validade</th>
+                            <th scope="col">Quantidade</th>
+                            <th scope="col">Autor</th>
+                            <th scope="col">Módulo</th>
+                            <th scope="col">Atualizar</th>
+                            <th scope="col">Excluir</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTable">
+                        {% for item in lotes %}
+                        <form action="{% url 'addquant' item.Nlote %}" method='post' enctype="multipart/form-data">
                             <tr>
-                                <th scope="col">Lote</th>
-                                <th scope="col">Nome do Produto</th>
-                                <th scope="col">Validade</th>
-                                <th scope="col">Quantidade</th>
-                                <th scope="col" >Autor</th>
-                                <th scope="col">Módulo</th>
-                                <th scope="col" >Atualizar</th>
-                                <th scope="col" >Excluir</th>
+                                {% csrf_token %}
+                                <td>{{ item.Nlote }}</td>
+                                <td>{{ item.Nome }}</td>
+                                <td>{{ item.Validade }}</td>
+                                <td>{{ item.Quantidade }}</td>
+                                <td>{{ item.Usuario }}</td>
+                                <td class="centered-row"><label for="modulo"></label><input type="number" id="modulo"
+                                        name="quantidade" required></td>
+                                <td class="centered-row"><button type="submit">Carregar</button></td>
+                                <td class="centered-row"><a class="bi bi-trash3-fill"
+                                        href="{% url 'lotedelet' item.Nlote %}"></a></td>
                             </tr>
-                        </thead>
-                     <tbody id="productTable">
-                            {% for item in lotes %}
-                                <form action = "{% url 'addquant' item.Nlote %}" method = 'post' enctype="multipart/form-data">
-                                    <tr>
-                                        {% csrf_token %}
-                                        <td>{{ item.Nlote }}</td>
-                                        <td>{{ item.Nome }}</td>
-                                        <td>{{ item.Validade }}</td>
-                                        <td>{{ item.Quantidade }}</td>
-                                        <td>{{ item.Usuario }}</td>
-                                        <td class="centered-row"><label for="modulo"></label><input type="number" id="modulo" name="quantidade" required></td>
-                                        <td class="centered-row"><button type="submit">Carregar</button></td>
-                                        <td class="centered-row"><a class="bi bi-trash3-fill" href="{% url 'lotedelet' item.Nlote %}"></a></td>
-                                    </tr>
-                                </form>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                        </form>
+                        {% endfor %}
+                    </tbody>
+                </table>
 
-                </div>
             </div>
         </div>
-        
-       <!- <footer class="mt-4 bg-dark text-center text-light p-4">
-            Todos os direitos reservados.
+    </div>
+
+    <footer class="mt-4 bg-dark text-center text-light p-4">
+        Todos os direitos reservados.
         </footer>
-    </body>
+</body>
 {% endif %}
 </html>
