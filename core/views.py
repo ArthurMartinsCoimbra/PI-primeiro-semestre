@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib import messages
-from .models import Lote, ProdutoNome
+from .models import Lote, ProdutoNome, Fornecedor
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -33,10 +33,22 @@ def product(request):
     if not request.user.is_authenticated:
         return redirect('/login/')
     produtos = ProdutoNome.objects.all()
+    fornecedores = Fornecedor.objects.all()
     context = {
-        'produtos': produtos
+        'produtos': produtos,
+        'fornecedores': fornecedores
     }
     return render(request, 'product.html', context)
+
+def forn(request):
+    if not request.user.is_authenticated:
+        return redirect('/login/')
+    fornecedores = Fornecedor.objects.all()
+    context = {
+        'fornecedores': fornecedores
+    }
+    return render(request, 'supplier.html', context)
+
 
 
 def login_submit(request):
@@ -92,14 +104,31 @@ def create_usuario(request):
             messages.error(request='senhas não batem')
             return render(request, 'register.html')
         
+def create_forn(request):
+    if request.POST:
+        Atribforn = ['Nomefornecedor', 'Emailfornecedor']
+        forner = Fornecedor.objects.create(
+            Emailforn = request.POST.get('Emailfornecedor'),
+            Nome = request.POST.get('Nomefornecedor')
+        )
+        forner.save()
+    return redirect('/forn/')
+
+
 
 def create_produto(request):
     if request.POST:
+        Atribprod = ['Nome', 'Formail1', 'Formail2', 'Formail3', 'Formail4', 'Formail5']
         if not request.POST.get('Nomeproduto'):
             return render(request, 'product.html')
         print(request.POST.get('Nomeproduto'))
         produto = ProdutoNome.objects.create(
-            Nome = request.POST.get('Nomeproduto')
+            Nome = request.POST.get('Nomeproduto'),
+            Formail1 = request.POST.get('Formail1produto'),
+            Formail2 = request.POST.get('Formail2produto'),
+            Formail3 = request.POST.get('Formail3produto'),
+            Formail4 = request.POST.get('Formail4produto'),
+            Formail5 = request.POST.get('Formail5produto')
         )
         print(request.POST.get('Nomeproduto'))
         produto.save()
@@ -129,6 +158,11 @@ def delet_prod(request, coletNome):
     produto = get_object_or_404(ProdutoNome, Nome = coletNome)
     produto.delete()
     return redirect('/produtos/')
+
+def delet_forn(request, coletFornEmail):
+    forn = get_object_or_404(Fornecedor, Emailforn = coletFornEmail)
+    forn.delete()
+    return redirect('/forn/')
 
 def delet_lote(request, coletNlote):
     lote = get_object_or_404(Lote, Nlote = coletNlote)
