@@ -10,36 +10,12 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/product.css' %}">
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-
-    <style>
-        .nav-link {
-            color: white;
-        }
-
-        label {
-            /* padding-top: 10px; */
-            text-align: start;
-        }
-
-        .card {
-            width: 70%;
-        }
-
-        .centered-row {
-            text-align: center;
-            width: 10px;
-        }
-
-        footer {
-            bottom: 0px;
-            position: absolute;
-            width: 100%;
-        }
-    </style>
 </head>
 {% if request.user.is_anonymous %}
 
@@ -58,59 +34,71 @@
                     class="border border-primary border-2 py-4 px-3 rounded-3  bg-light">
                     {% csrf_token %}
                     <p class="h5 mb-3 fw-normal">Criar novo produto</p>
-                    <div class="form-floating">
+                    <div class="form-floating mb-1">
                         <input type="text" class="form-control" id="Produtonomenome" placeholder="Nome do produto"
                             name="Nomeproduto">
                         <label for="Produtonomenome">Nome do produto</label>
                     </div>
-                    <div class="form-floating">
-                        <label for="formail1"></label>
-                        <select class="form-control" id="formail1" placeholder="Nome do produto" name="Formail1produto">
-                            <option value='Nenhum'>Nenhum</option>
-                            {% for item in fornecedores %}
-                            <option value='{{item.Emailforn}}'>{{item.Nome}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-floating">
-                        <label for="formail2"></label>
-                        <select class="form-control" id="formail2" placeholder="Nome do produto" name="Formail2produto">
-                            <option value='Nenhum'>Nenhum</option>
-                            {% for item in fornecedores %}
-                            <option value='{{item.Emailforn}}'>{{item.Nome}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-floating">
-                        <label for="formail3"></label>
-                        <select class="form-control" id="formail3" placeholder="Nome do produto" name="Formail3produto">
-                            <option value='Nenhum'>Nenhum</option>
-                            {% for item in fornecedores %}
-                            <option value='{{item.Emailforn}}'>{{item.Nome}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-floating">
-                        <label for="formail4"></label>
-                        <select class="form-control" id="formail4" placeholder="Nome do produto" name="Formail4produto">
-                            <option value='Nenhum'>Nenhum</option>
-                            {% for item in fornecedores %}
-                            <option value='{{item.Emailforn}}'>{{item.Nome}}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-floating">
-                        <label for="formail5"></label>
-                        <select class="form-control" id="formail5" placeholder="Nome do produto" name="Formail5produto">
-                            <option value='Nenhum'>Nenhum</option>
-                            {% for item in fornecedores %}
-                            <option value='{{item.Emailforn}}'>{{item.Nome}}</option>
-                            {% endfor %}
-                        </select>
+                    <div class="row g-2">
+                        <div class="col-md-4 col-sm-6">
+                            <div class="form-floating mb-1">
+                                <select class="form-select" id="formail1" aria-label="Selecione o Fornecedor 1">
+                                    <option selected>Nenhum</option>
+                                    {% for item in fornecedores %}
+                                    <option value='{{item.Emailforn}}'>{{item.Nome}}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="formail1">Fornecedor 1</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="form-floating mb-1">
+                                <select class="form-select" id="formail2">
+                                    <option selected>Nenhum</option>
+                                    {% for item in fornecedores %}
+                                    <option value='{{item.Emailforn}}'>{{item.Nome}}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="formail2">Fornecedor 2</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="form-floating mb-1">
+                                <select class="form-select" id="formail3">
+                                    <option selected>Nenhum</option>
+                                    {% for item in fornecedores %}
+                                    <option value='{{item.Emailforn}}'>{{item.Nome}}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="formail3">Fornecedor 3</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="form-floating mb-1">
+                                <select class="form-select" id="formail4">
+                                    <option selected>Nenhum</option>
+                                    {% for item in fornecedores %}
+                                    <option value='{{item.Emailforn}}'>{{item.Nome}}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="formail4">Fornecedor 4</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="form-floating mb-1">
+                                <select class="form-select" id="formail5" placeholder="Nome do produto"
+                                    name="Formail5produto">
+                                    <option selected>Nenhum</option>
+                                    {% for item in fornecedores %}
+                                    <option value='{{item.Emailforn}}'>{{item.Nome}}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="formail5">Fornecedor 5</label>
+                            </div>
+                        </div>
                     </div>
                     <button class="btn btn-primary w-100 py-2" type="submit">Cadastrar Produto</button>
                 </form>
-
                 <div class="card-body">
                     <table class="table table-striped">
                         <thead>
@@ -148,4 +136,5 @@
     </footer>
 </body>
 {% endif %}
+
 </html>

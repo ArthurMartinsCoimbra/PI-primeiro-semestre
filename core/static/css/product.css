@@ -2,21 +2,22 @@
     color: white;
 }
 
+label {
+    text-align: start;
+}
+
+.card {
+    width: 100%;
+    margin: 20px;
+}
+
 .centered-row {
     text-align: center;
     width: 10px;
 }
 
-.bi-plus-circle,
-.bi-dash-circle {
-    -webkit-text-stroke: 1px;
-}
-
-.input-group {
-    padding-top: 10px;
-}
-
-html, body {
+body,
+html {
     height: 100%;
     margin: 0;
 }
@@ -26,8 +27,8 @@ body {
     flex-direction: column;
 }
 
-.container {
-    flex-grow: 1;
+.content {
+    flex: 1;
 }
 
 footer {
@@ -39,14 +40,8 @@ footer {
     margin-top: auto;
 }
 
-.card {
-    margin: 20px;
-}
-
 .border-primary {
+    margin-top: 20px;
     width: 70%;
     align-self: center;
-    margin-top: 20px;
-    margin-left: 10px;
-    margin-right: 10px;
 }
