@@ -218,6 +218,7 @@ def enviar_em(request, prodid):
 
     emailsfor = [email1, email2, email3, email4, email5]
     emailspure = []
+    linkforms = 'https://docs.google.com/forms/d/e/1FAIpQLSe7xfz5brAOtG2HsIkJtTU71AIqGtvfWKfFg3faC-0tuentzg/viewform?usp=sf_link'
     for em in emailsfor:
         for i in em:
             if i == '@':
@@ -225,12 +226,12 @@ def enviar_em(request, prodid):
     if emailspure != []:
         send_mail(
             f'Requisição do produto {prod.Nome}',
-            f'Olá, segue o link para a cotação do produto {prod.Nome}, por favor, preencher para que eu possa saber o preço',
+            f'Olá, segue o link para a cotação do produto {prod.Nome}, por favor, preencher para que eu possa saber o preço {linkforms}',
             'settings.EMAIL_HOST_USER',
             emailspure,
             fail_silently=False
         )
-        
+
     return redirect('/produtos/')
 '''
     email_data = {
