@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib import messages
+from django.http import JsonResponse
 from .models import Lote, ProdutoNome, Fornecedor
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
@@ -7,10 +8,28 @@ from django.contrib.auth.models import User
 from .forms import LoteModelForm
 from mailersend import emails
 from django.conf import settings
+from django.core.mail import EmailMessage, get_connection, send_mail
+import mailersend
 # Create your views here.
 
 
 def index(request):
+    prod = get_object_or_404(ProdutoNome, Nome = 'ry5y545y46')
+
+    email1 = prod.Formail1
+    email2 = prod.Formail2
+    email3 = prod.Formail3
+    email4 = prod.Formail4
+    email5 = prod.Formail5
+
+    emails = [email1, email2, email3, email4, email5]
+    emailspure = []
+    for em in emails:
+        for i in em:
+            if i == '@':
+                emailspure.append(em)
+    print(emails)
+    print(emailspure)
     return render(request, 'index.html')
 
 def login_user(request):
@@ -188,8 +207,82 @@ def sub_quant(request, pegNlote):
         return redirect('/')
 
 
+def enviar_em(request, prodid):
+    prod = get_object_or_404(ProdutoNome, Nome = prodid)
+    
+    email1 = prod.Formail1
+    email2 = prod.Formail2
+    email3 = prod.Formail3
+    email4 = prod.Formail4
+    email5 = prod.Formail5
 
-def env_mail(dest, prod, linkform):
+    emailsfor = [email1, email2, email3, email4, email5]
+    emailspure = []
+    for em in emailsfor:
+        for i in em:
+            if i == '@':
+                emailspure.append(em)
+    if emailspure != []:
+        send_mail(
+            f'Requisição do produto {prod.Nome}',
+            f'Olá, segue o link para a cotação do produto {prod.Nome}, por favor, preencher para que eu possa saber o preço',
+            'settings.EMAIL_HOST_USER',
+            emailspure,
+            fail_silently=False
+        )
+        
+    return redirect('/produtos/')
+'''
+    email_data = {
+        'from' :{
+            'email':'amc5347@gmail.com',
+            'name': 'Nometeste'
+        },
+        'to': [{'email':email} for email in emailspure],
+        'subject': 'Pedido de produto',
+        'html': '<p>Este é o meu email de teste</p>'
+
+    }
+
+    try:
+        response = mailersend.send(email_data)
+        print(response)
+        return HttpResponse('Emails enviados com sucesso')
+    except Exception as e:
+        return HttpResponse(f'Erro ao enviar: {e}', status = 500)
+
+    return redirect('/produtos/')
+
+    
+    mailersend = emails.NewEmail(settings.MAILERSEND_API_KEY)
+    print(emailspure)
+    subject = 'Teste de requisicao'
+    recipient_list = emailspure
+    from_email = 'amc5347@gmail.com'
+    message = '<p>Este e o meu email de teste</p>'
+    host1=settings.MAILERSEND_SMTP_HOST
+    print(host1)
+    with get_connection(
+        host=settings.MAILERSEND_SMTP_HOST,
+        port=settings.MAILERSEND_SMTP_PORT,
+        username=settings.MAILERSEND_SMTP_USERNAME,
+        password='pYmituV9VgvhA1HB',
+        use_tls=True,
+        ) as connection:
+            r = EmailMessage(
+                  subject=subject,
+                  body=message,
+                  to=recipient_list,
+                  from_email=from_email,
+                  connection=connection).send()
+    return JsonResponse({"status": "ok"})
+
+
+
+'''
+
+
+'''def env_mail(dest, prod, linkform):
     mailer = emails.NewEmail(settings.MAILERSEND_API_KEY)
 
     subject = f'Preencha o seguinte formulário do produto: {prod}'
@@ -203,7 +296,7 @@ def env_mail(dest, prod, linkform):
     html = body
     )
 
-    return response
+    return response'''
 
 '''def createUser(request):
     if request.POST:
