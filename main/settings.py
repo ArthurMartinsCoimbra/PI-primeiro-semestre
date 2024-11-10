@@ -32,7 +32,7 @@ MAILERSEND_SMTP_USERNAME = 'MS_XHBkoT@trial-v69oxl5nmerl785k.mlsender.net'
 MAILERSEND_SMTP_HOST = 'smtp.mailersend.net'
 DEFAULT_FROM_EMAIL = 'amc5347@gmail.com'
 teste = 'teste'
-CSRF_TRUSTED_ORIGINS = ['https://pi-primeiro-semestre.fly.dev', 'https://*.127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://*.pi-primeiro-semestre.fly.dev', 'https://*.127.0.0.1']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
