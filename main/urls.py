@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from core.views import home, product, register, index, create_usuario, login_user, login_submit, create_produto, logout_view, create_lote, delet_prod, delet_lote, add_quant, sub_quant, forn, create_forn, delet_forn, enviar_em
+from core.views import home, product, register, index, create_usuario, login_user, login_submit, create_produto, logout_view, create_lote, delet_prod, delet_lote, add_quant, sub_quant, forn, create_forn, delet_forn, enviar_em, quantidade_graf
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home, name='home'),
@@ -36,6 +36,6 @@ urlpatterns = [
     path('lotesdel/<str:coletNlote>/', delet_lote, name = 'lotedelet'),
     path('add/<str:pegNlote>/', add_quant, name = 'addquant'),
     path('sub/<str:pegNlote>/', sub_quant, name = 'subquant'),
-    path('produtos/envmail/<str:prodid>/', enviar_em, name = 'enviar_email_forn')
-    
+    path('produtos/envmail/<str:prodid>/', enviar_em, name = 'enviar_email_forn'),
+    path('analytcs/', quantidade_graf, name = 'graf'), 
     ]

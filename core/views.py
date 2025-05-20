@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import JsonResponse
+from django.db.models import Sum
 from .models import Lote, ProdutoNome, Fornecedor
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
@@ -233,6 +234,33 @@ def enviar_em(request, prodid):
         )
 
     return redirect('/produtos/')
+
+def quantidade_graf(request):
+    produtos=ProdutoNome.objects.all()
+    nomes = []
+    quantidades = []
+
+    for produto in produtos:
+        total = Lote.objects.filter(Nome = produto.Nome).aggregate(soma=Sum('Quantidade'))['soma'] or 0
+
+
+        nomes.append(produto.Nome)
+        quantidades.append(total)
+
+    context = {
+        'nomes' : nomes,
+        'quantidades' : quantidades,
+    }
+    print(nomes)
+    print(quantidades)
+
+    return render(request, 'grafico.html', context)
+
+
+
+
+
+
 '''
     email_data = {
         'from' :{
