@@ -11,6 +11,7 @@ from mailersend import emails
 from django.conf import settings
 from django.core.mail import EmailMessage, get_connection, send_mail
 import mailersend
+import json
 # Create your views here.
 
 
@@ -245,11 +246,11 @@ def quantidade_graf(request):
 
 
         nomes.append(produto.Nome)
-        quantidades.append(total)
+        quantidades.append(float(total))
 
     context = {
-        'nomes' : nomes,
-        'quantidades' : quantidades,
+        'nomes' : json.dumps(nomes),
+        'quantidades' : json.dumps(quantidades),
     }
     print(nomes)
     print(quantidades)

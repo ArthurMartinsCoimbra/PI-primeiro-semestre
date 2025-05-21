@@ -37,5 +37,5 @@ urlpatterns = [
     path('add/<str:pegNlote>/', add_quant, name = 'addquant'),
     path('sub/<str:pegNlote>/', sub_quant, name = 'subquant'),
     path('produtos/envmail/<str:prodid>/', enviar_em, name = 'enviar_email_forn'),
-    path('analytcs/', quantidade_graf, name = 'graf'), 
+    path('analytics/', quantidade_graf, name = 'graf'), 
     ]
