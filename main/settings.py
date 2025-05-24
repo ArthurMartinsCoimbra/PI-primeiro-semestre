@@ -157,4 +157,5 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-django_on_heroku.settings(locals())
+if not os.getenv("CI_TESTING", "False") == "True":
+    django_on_heroku.settings(locals())
