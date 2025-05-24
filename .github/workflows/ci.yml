@@ -36,6 +36,7 @@ jobs:
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
       DJANGO_SECRET_KEY: dummy
       DJANGO_DEBUG: True
+      DATABASE_SSL: False
 
     steps:
     - uses: actions/checkout@v3
