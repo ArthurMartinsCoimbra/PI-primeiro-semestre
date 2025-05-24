@@ -33,10 +33,10 @@ jobs:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: test_db
-      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db?sslmode=disable
       DJANGO_SECRET_KEY: dummy
       DJANGO_DEBUG: True
-      DATABASE_SSL: False
+      CI_TESTING: "True" # Opcional: Adicione esta variável para o settings.py verificar o ambiente CI
 
     steps:
     - uses: actions/checkout@v3

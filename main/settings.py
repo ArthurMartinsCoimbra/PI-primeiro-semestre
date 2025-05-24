@@ -98,9 +98,7 @@ if DATABASE_URL:
         conn_max_age=600
     )
 
-    disable_ssl = os.getenv("DATABASE_SSL", "False").lower() in ["false", "0", "no"]
-
-    if disable_ssl:
+    if os.getenv("CI_TESTING") == "True" or os.getenv("DATABASE_SSL", "False").lower() in ["false", "0", "no"]:
         db_config["OPTIONS"] = {"sslmode": "disable"}
     else:
         db_config["OPTIONS"] = {"sslmode": "require"}
