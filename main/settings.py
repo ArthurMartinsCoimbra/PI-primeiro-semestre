@@ -90,17 +90,16 @@ WSGI_APPLICATION = 'main.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-
 DATABASE_URL = os.getenv('DATABASE_URL')
 
 if DATABASE_URL:
+    db_config = dj_database_url.parse(DATABASE_URL, conn_max_age=600)
+
+    if os.getenv("DATABASE_SSL", "False").lower() in ["false", "0", "no"]:
+        db_config["OPTIONS"] = {"sslmode": "disable"}
+
     DATABASES = {
-        'default': dj_database_url.parse(
-            DATABASE_URL,
-            conn_max_age=600,
-            ssl_require=False  # ⚠️ Desabilite SSL no Actions/local
-        )
+        'default': db_config
     }
 else:
     DATABASES = {
