@@ -33,6 +33,7 @@ MAILERSEND_SMTP_HOST = 'smtp.mailersend.net'
 DEFAULT_FROM_EMAIL = 'amc5347@gmail.com'
 teste = 'teste'
 CSRF_TRUSTED_ORIGINS = ['https://*.pi-primeiro-semestre.fly.dev', 'https://*.127.0.0.1']
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
