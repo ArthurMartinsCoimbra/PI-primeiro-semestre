@@ -2,7 +2,9 @@ name: Django Tests
 
 on:
   pull_request:
-    branches: [ main ]  # Ou a branch principal do seu projeto
+    branches:
+      - main
+      - develop
 
 jobs:
   test:
