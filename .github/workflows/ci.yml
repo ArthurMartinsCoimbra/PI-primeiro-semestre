@@ -14,11 +14,35 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test_db
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/test_db?sslmode=disable
+      DJANGO_SECRET_KEY: dummy
+      DJANGO_DEBUG: True
+      CI_TESTING: "True" # Opcional: Adicione esta variável para o settings.py verificar o ambiente CI
+
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3
 
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v4
       with:
         python-version: '3.9'
 
@@ -27,10 +51,21 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    - name: Wait for Postgres to be ready
+      run: |
+        until pg_isready -h localhost -p 5432; do
+          echo "Waiting for postgres..."
+          sleep 1
+        done
+
     - name: Run migrations
       run: |
         python manage.py migrate
 
+    - name: Collect static files
+      run: |
+        python manage.py collectstatic --noinput
+        
     - name: Run tests
       run: |
         python manage.py test

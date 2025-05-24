@@ -122,7 +122,7 @@ def create_usuario(request):
             login(request, user)
             return redirect('/')
         else:
-            messages.error(request='senhas não batem')
+            messages.error(request, 'senhas não batem')
             return render(request, 'register.html')
         
 def create_forn(request):

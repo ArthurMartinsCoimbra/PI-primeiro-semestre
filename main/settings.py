@@ -9,8 +9,11 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import os
+import dj_database_url
 import django_on_heroku
 from pathlib import Path
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +36,7 @@ MAILERSEND_SMTP_HOST = 'smtp.mailersend.net'
 DEFAULT_FROM_EMAIL = 'amc5347@gmail.com'
 teste = 'teste'
 CSRF_TRUSTED_ORIGINS = ['https://*.pi-primeiro-semestre.fly.dev', 'https://*.127.0.0.1']
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -86,12 +90,29 @@ WSGI_APPLICATION = 'main.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+DATABASE_URL = os.getenv('DATABASE_URL')
+
+if DATABASE_URL:
+    db_config = dj_database_url.parse(
+        DATABASE_URL,
+        conn_max_age=600
+    )
+
+    if os.getenv("CI_TESTING") == "True" or os.getenv("DATABASE_SSL", "False").lower() in ["false", "0", "no"]:
+        db_config["OPTIONS"] = {"sslmode": "disable"}
+    else:
+        db_config["OPTIONS"] = {"sslmode": "require"}
+
+    DATABASES = {
+        'default': db_config
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -136,4 +157,5 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-django_on_heroku.settings(locals())
+if not os.getenv("CI_TESTING", "False") == "True":
+    django_on_heroku.settings(locals())
