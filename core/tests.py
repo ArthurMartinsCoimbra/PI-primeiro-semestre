@@ -68,7 +68,7 @@ class ViewTests(TestCase):
         self.assertTrue(Fornecedor.objects.filter(Nome='FornecedorTeste').exists())
 
     # ====================
-    # Teste Lote
+    # Teste Criar Lote
     # ====================
     def test_create_lote(self):
         self.client.login(username='testuser', password='testpass')
