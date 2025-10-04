@@ -1,6 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models import F
 # Create your models here.
+
+
+
+
+
 
 class Fornecedor(models.Model):
     Emailforn = models.EmailField(primary_key=True)
@@ -29,3 +35,32 @@ class Lote(models.Model):
     '''def __str__(self):
         return self.Nome'''
     
+
+
+class MovProd(models.Model):
+    TIPO_TIPOS = [
+        ('entrada', 'Entrada'),
+        ('saida', 'Saída'),
+    ]
+    
+    Tipo = models.CharField(max_length=10, choices=TIPO_TIPOS)
+    Data = models.DateField()
+    Produto = models.ForeignKey(ProdutoNome, on_delete=models.CASCADE)
+    Quantidade = models.PositiveBigIntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        
+        if self.pk is None:
+            existente = MovProd.objects.filter(
+                Produto = self.Produto,
+                Data = self.Data,
+                Tipo = self.Tipo
+            ).first()
+            if existente:
+                existente.Quantidade = F('Quantidade') + self.Quantidade
+                existente.save(update_fields = ["Quantidade"])
+                return
+        super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return f"{self.Produto} - {self.Tipo} - {self.Data} - ({self.Quantidade})"
