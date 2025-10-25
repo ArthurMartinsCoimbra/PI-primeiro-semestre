@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import JsonResponse
 from django.db.models import Sum
-from .models import Lote, ProdutoNome, Fornecedor
+from .models import Lote, ProdutoNome, Fornecedor, MovProd
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -10,6 +10,8 @@ from .forms import LoteModelForm
 from mailersend import emails
 from django.conf import settings
 from django.core.mail import EmailMessage, get_connection, send_mail
+from django.utils import timezone
+from datetime import date
 import mailersend
 import json
 # Create your views here.
@@ -169,6 +171,16 @@ def create_lote(request):
             Usuario = request.user
         )
         lote.save()
+
+    produto = ProdutoNome.objects.get(Nome = lote.Nome)
+
+    MovProd.objects.create(
+        Produto = produto,
+        Tipo = "entrada",
+        Data = date.today(),
+        Quantidade = lote.Quantidade
+    )
+
     return redirect('/')
 
 def logout_view(request):
