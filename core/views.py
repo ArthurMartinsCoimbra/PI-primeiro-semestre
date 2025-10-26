@@ -208,6 +208,25 @@ def add_quant(request, pegNlote):
     print(quantidade)
     lote.Quantidade += quantidade
     lote.save()
+    produto = ProdutoNome.objects.get(Nome = lote.Nome)
+    if quantidade > 0:
+        tipo = "entrada"
+        MovProd.objects.create(
+        Produto = produto,
+        Tipo = tipo,
+        Data = date.today(),
+        Quantidade = quantidade
+    )
+    elif quantidade < 0:
+        tipo = "saida"
+        quantidade *= -1
+        MovProd.objects.create(
+            Produto = produto,
+            Tipo = tipo,
+            Data = date.today(),
+            Quantidade = quantidade
+        )
+
     return redirect('/')
 
 def sub_quant(request, pegNlote):
