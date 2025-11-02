@@ -12,6 +12,9 @@ from django.conf import settings
 from django.core.mail import EmailMessage, get_connection, send_mail
 from django.utils import timezone
 from datetime import date
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
 import mailersend
 import json
 # Create your views here.
@@ -288,7 +291,57 @@ def quantidade_graf(request):
 
     return render(request, 'grafico.html', context)
 
+def oraculo(request):
+    previsoes = []
 
+    produtos = ProdutoNome.objects.all()
+
+    for produto in produtos:
+        estoque_total = (
+            Lote.objects.filter(Nome=produto).aggregate(Sum("Quantidade"))["Quantidade__sum"] or 0
+        )
+        estoque_total = float(estoque_total)
+
+        saidas = (
+            MovProd.objects.filter(Produto = produto, Tipo = "saida").values("Data").annotate(total=Sum("Quantidade")).order_by("Data")
+            )
+        
+        if not saidas.exists() or estoque_total == 0:
+            previsoes.append((produto.Nome, "Sem dados suficientes", "-"))
+            continue
+
+
+        df = pd.DataFrame(list(saidas))
+        df["Data"] = pd.to_datetime(df["Data"])
+        df = df.sort_values("Data")
+
+
+        df["dias"] = (df["Data"] - df["Data"].min()).dt.days
+
+        x = df[["dias"]]
+        y = df["total"]
+
+        model = LinearRegression()
+        model.fit(x,y)
+
+        tendencia_diaria = model.coef_[0]
+
+        consumo_medio = df["total"].mean()
+
+        if tendencia_diaria <= 0:
+            tendencia_diaria = consumo_medio
+        
+        if tendencia_diaria > 0:
+            dias_falta = estoque_total/tendencia_diaria
+            data_prevista = date.today() + pd.to_timedelta(dias_falta, unit = "D")
+            previsoes.append(
+                (produto.Nome, round(dias_falta, 1), data_prevista.strftime("%d/%m/%Y"))
+            )
+        else: 
+            previsoes.append((produto.Nome, "Sem dados suficientes", "-"))
+
+    return render(request, "oraculo.html", {"previsoes": previsoes})
+        
 
 
 

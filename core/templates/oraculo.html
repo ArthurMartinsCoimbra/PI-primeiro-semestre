@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2> Previsão de faltas</h2>
+    <table>
+        <tr>
+            <th>Produto</th>
+            <th>Dias restantes</th>
+            <th>Data prevista de Falta</th>
+        </tr>
+        {% for produto, dias , data in previsoes %}
+        <tr>    
+            <td>{{ produto }}</td>
+            <td>{{ dias }}</td>
+            <td>{{ data }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
